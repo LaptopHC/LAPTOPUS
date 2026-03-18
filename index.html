@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LaptopPro - Shop Laptop</title>
+<style>
+body{font-family:Arial;margin:0;background:#f4f6f9}
+header{background:#007bff;color:white;padding:15px;text-align:center}
+nav{background:#222;padding:10px;text-align:center}
+nav a{color:white;margin:10px;text-decoration:none}
+.container{padding:20px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{background:white;padding:15px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1)}
+.card img{width:100%;height:160px;object-fit:cover}
+.btn{background:#007bff;color:white;border:none;padding:10px;width:100%;cursor:pointer;margin-top:10px}
+.cart{position:fixed;right:0;top:0;width:300px;height:100%;background:white;box-shadow:-2px 0 10px rgba(0,0,0,0.2);padding:15px;overflow:auto}
+footer{background:#111;color:white;text-align:center;padding:10px;margin-top:20px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>LaptopPro Store</h1>
+<p>Bán laptop chính hãng giá tốt</p>
+</header>
+
+<nav>
+<a href="#">Trang chủ</a>
+<a href="#">Sản phẩm</a>
+<a href="#">Liên hệ</a>
+</nav>
+
+<div class="container">
+<h2>Sản phẩm</h2>
+<div class="products" id="products"></div>
+</div>
+
+<div class="cart">
+<h3>🛒 Giỏ hàng</h3>
+<ul id="cartList"></ul>
+<p><b>Tổng: <span id="total">0</span> VNĐ</b></p>
+<button class="btn" onclick="checkout()">Đặt hàng</button>
+</div>
+
+<footer>
+<p>© 2026 LaptopPro</p>
+</footer>
+
+<script>
+const products=[
+{name:"Dell XPS 13",price:25000000,img:"https://via.placeholder.com/300"},
+{name:"MacBook Pro M2",price:32000000,img:"https://via.placeholder.com/300"},
+{name:"Asus ROG Gaming",price:28000000,img:"https://via.placeholder.com/300"},
+{name:"HP Pavilion",price:18000000,img:"https://via.placeholder.com/300"}
+];
+
+let cart=[];
+
+function renderProducts(){
+const el=document.getElementById("products");
+el.innerHTML="";
+products.forEach((p,i)=>{
+let div=document.createElement("div");
+div.className="card";
+div.innerHTML=`
+<img src="${p.img}">
+<h3>${p.name}</h3>
+<p>${p.price.toLocaleString()} VNĐ</p>
+<button class="btn" onclick="addToCart(${i})">Mua</button>
+`;
+el.appendChild(div);
+});
+}
+
+function addToCart(i){
+cart.push(products[i]);
+renderCart();
+}
+
+function renderCart(){
+const list=document.getElementById("cartList");
+list.innerHTML="";
+let total=0;
+cart.forEach(item=>{
+let li=document.createElement("li");
+li.textContent=item.name+" - "+item.price.toLocaleString()+" VNĐ";
+list.appendChild(li);
+total+=item.price;
+});
+document.getElementById("total").textContent=total.toLocaleString();
+}
+
+function checkout(){
+if(cart.length===0){alert("Giỏ hàng trống!");return;}
+alert("Đặt hàng thành công!");
+cart=[];
+renderCart();
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
